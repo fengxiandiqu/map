@@ -1,0 +1,14 @@
+alerts:
+  - title: "Hello!"
+    text: Welcome to your new conference website.
+    color: green-1
+  - text: You can have multiple alerts, with different colors. This is the default.
+buttons:
+  - text: GitHub
+    url: https://github.com/piazzai/jekyll-nagymaros
+    disabled: false
+  - text: RubyGem
+    url: https://rubygems.org/gems/jekyll-nagymaros
+    disabled: false
+  - text: Disabled
+    disabled: true
