@@ -1,25 +1,30 @@
-title: Nagymaros
-description: Jekyll theme for a conference website
-baseurl: /jekyll-nagymaros
-url: https://piazzai.github.io
+title: 巴黎街区地图
+description: 巴黎风险区地图
 
-permalink: pretty
-theme: jekyll-nagymaros
+url: https://paris-risk-zones.github.io
 
-home: /
+# Locally
+baseurl: ""
+#remote_theme: piazzai/jekyll-nagymaros
+
+# Online
+#baseurl: ""
+#theme: jekyll-nagymaros
+
+include:
+  - assets
+
+
 copyright: Place Holder
 indexing: true
+
+permalink: pretty
 
 exclude:
   - LICENSE
   - README.md
-  - Gemfile
-  - vendor/
+  - run.sh
 
 plugins:
-  - jekyll-seo-tag
   - jekyll-sitemap
-
-sass:
-  sourcemap: never
-  
+  - jekyll-seo-tag
