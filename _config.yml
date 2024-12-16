@@ -1,8 +1,9 @@
 title: 巴黎街区地图 
 description: 巴黎风险区地图
 
-url: https://paris-risk-zones.github.io
+url: "https://paris-risk-zones.github.io"
 baseurl: "/test-web"
+
 
 include:
   - assets
