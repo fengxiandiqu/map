@@ -8,7 +8,7 @@ baseurl: ""
 #remote_theme: piazzai/jekyll-nagymaros
 
 # Online
-#baseurl: ""
+baseurl: "/test-web"
 #theme: jekyll-nagymaros
 
 include:
