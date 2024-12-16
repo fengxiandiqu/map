@@ -4,7 +4,7 @@ description: 巴黎风险区地图
 url: https://paris-risk-zones.github.io
 
 # Locally
-baseurl: ""
+# baseurl: ""
 #remote_theme: piazzai/jekyll-nagymaros
 
 # Online
