@@ -1,19 +1,11 @@
-title: 巴黎街区地图
+title: 巴黎街区地图 
 description: 巴黎风险区地图
 
 url: https://paris-risk-zones.github.io
-
-# Locally
-# baseurl: ""
-#remote_theme: piazzai/jekyll-nagymaros
-
-# Online
 baseurl: "/test-web"
-#theme: jekyll-nagymaros
 
 include:
   - assets
-
 
 copyright: Place Holder
 indexing: true
@@ -27,7 +19,7 @@ exclude:
   - vendor/
   - Gemfile
   - Gemfile.lock
-  
+
 plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
