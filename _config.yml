@@ -17,8 +17,7 @@ exclude:
   - README.md
   - run.sh
   - vendor/
-  - Gemfile
-  - Gemfile.lock
+
 
 plugins:
   - jekyll-sitemap
