@@ -25,10 +25,8 @@ layout: default
 </div>
 
 <main class="my-4">
-    <div class="container px-5 py-3 bg-{{ index_bg }} rounded">
-        <h1 class="display-3">{{ title }}</h1>
-        <p class="lead">{{ description }}</p>
-        <hr class="my-4">
+    <div class="container">
+        <h1 class="display-5">{{ title }}</h1>
         {{ content }}
         {% if site.data.map %}
         <hr class="my-4">
