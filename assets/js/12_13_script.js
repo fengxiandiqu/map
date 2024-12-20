@@ -428,20 +428,5 @@ function switchTab(tabName) {
 document.getElementById('map-tab').addEventListener('click', () => switchTab('map'));
 document.getElementById('comments-tab').addEventListener('click', () => switchTab('comments'));
 
-// 创建自定义控件并添加到地图右上方
-const infoControl = L.control({ position: 'topleft' });
 
-infoControl.onAdd = function () {
-    const div = L.DomUtil.create('div', 'info'); // 创建一个 div 元素
-    div.innerHTML = `
-        <h4>欢迎使用我们的地图!</h4>
-        <p>在陌生的城市中，安全无疑是最关心的问题。我们的地图为您提供了一个全新的视角，专注于巴黎的安全区域，帮助您选择最合适的酒店。巴黎被划分为20个区，
-        我们将每个区的风险等级进行标注，从绿色到红色，清晰地展示每个区域的安全程度，让您在旅途中更加安心。无论您是初次来到巴黎，还是经验丰富的旅行者，
-        这张地图都会为您的选择提供强有力的支持。选择您心仪的酒店，同时确保安全，享受愉快的巴黎之旅！</p>
-    `;
-    return div;
-};
-
-// 将控件添加到地图
-infoControl.addTo(map);
 
