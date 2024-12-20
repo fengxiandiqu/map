@@ -30,7 +30,9 @@ layout: default
         {{ content }}
         {% if site.data.map %}
         <hr class="my-4">
-        <div id="map"></div>
+        <div id="map" style="height: 500px;"></div>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script src="{{ '/assets/js/12_13_script.js' | relative_url }}"></script>
         <div class="btn-group-lg mt-4 mb-3" role="group">
             {% assign buttons = site.data.index.buttons %}
             {% for button in buttons %}
@@ -52,3 +54,4 @@ layout: default
 </main>
 
 {% include footer.html %}
+
