@@ -1,7 +1,6 @@
 ---
 layout: program
-title: Program
-description: Schedule of talks and activities
+title: 评论
 navorder: 1
 ---
 
