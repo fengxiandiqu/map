@@ -30,7 +30,9 @@ layout: default
         <p class="lead">{{ description }}</p>
         <hr class="my-4">
         {{ content }}
-        {% if site.data.index.buttons %}
+        {% if site.data.map %}
+        <hr class="my-4">
+        <div id="map"></div>
         <div class="btn-group-lg mt-4 mb-3" role="group">
             {% assign buttons = site.data.index.buttons %}
             {% for button in buttons %}
