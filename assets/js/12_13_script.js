@@ -341,11 +341,7 @@ hotelLegend.addTo(map);
     
 
 
-    }) // Close the districts fetch .then()
-    .catch(error => {
-        console.error('Error fetching data:', error);
-        alert('Error loading map data. Please check console for details.');
-    });
+    }) 
 
 
 
