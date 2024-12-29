@@ -32,5 +32,35 @@ const colors = [
 
 
 
+// Function to get color based on district number
+function getDistrictColor(code) {
+    return colors[code - 1]; // Subtract 1 because array is 0-based
+}
+
+function formatDistrictNumber(num) {
+    return `区域 ${num}`;
+}
+
+// Add info control
+const info = L.control();
+info.onAdd = function() {
+    this._div = L.DomUtil.create('div', 'info');
+    this.update();
+    return this._div;
+};
+
+
+
+// Function to highlight legend item
+function highlightLegendItem(code) {
+    const legendItems = document.querySelectorAll('.legend-item');
+    legendItems.forEach(item => {
+        if (item.dataset.district === code.toString()) {
+            item.style.backgroundColor = '#f0f0f0';
+            item.style.fontWeight = 'bold';
+        }
+    });
+}
+
 
 
