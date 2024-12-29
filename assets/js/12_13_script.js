@@ -63,4 +63,12 @@ function highlightLegendItem(code) {
 }
 
 
+// Function to reset legend item highlight
+function resetLegendItem() {
+    const legendItems = document.querySelectorAll('.legend-item');
+    legendItems.forEach(item => {
+        item.style.backgroundColor = 'transparent';
+        item.style.fontWeight = 'normal';
+    });
+}
 
