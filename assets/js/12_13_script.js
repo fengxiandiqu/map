@@ -84,9 +84,6 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
         };
         legend.addTo(map);
     })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-        alert('Error loading map data. Please check console for details.');
-    });
+
 
 
