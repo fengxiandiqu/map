@@ -91,9 +91,9 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
                     fillOpacity: 0.7
                 };
             },
-            onEachFeature: function (feature, layer) {
+            onEachFeature: function(feature, layer) {
                 layer.on({
-                    mouseover: function (e) {
+                    mouseover: function(e) {
                         const layer = e.target;
                         layer.setStyle({
                             weight: 5,
@@ -101,16 +101,18 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
                             dashArray: '',
                             fillOpacity: 0.9
                         });
-                        info._div.innerHTML = `<h4>巴黎风险区</h4><p>区域: <b>${feature.properties.code}</b></p>`;
                     },
-                    mouseout: function (e) {
+                    mouseout: function(e) {
                         geojsonLayer.resetStyle(e.target);
-                        info._div.innerHTML = '<h4>巴黎风险区地图</h4><p>鼠标悬停以查看详细信息</p>';
                     }
                 });
+                // 修正 bindPopup 的语法
                 layer.bindPopup(`区域 ${feature.properties.code}`);
             }
         }).addTo(map);
+
+     
+
 
         // Convert API data to GeoJSON
         data.records.forEach(record => {
@@ -129,26 +131,22 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
         // Fit map to show all districts
         map.fitBounds(geojsonLayer.getBounds());
 
-        // Add legend
-        const legend = L.control({ position: 'bottomright' });
-        legend.onAdd = function () {
+        // Add legend with matching colors and interactive highlighting
+        const legend = L.control({position: 'bottomright'});
+        legend.onAdd = function() {
             const div = L.DomUtil.create('div', 'legend');
-            div.innerHTML = '<h4>示例颜色</h4>';
-            colors.forEach((color, index) => {
-                div.innerHTML += `
-                    <div>
-                        <i style="background:${color}; width: 18px; height: 18px; display: inline-block;"></i>
-                        区域 ${index + 1}
+            div.innerHTML = '<h4>巴黎街区</h4>';
+            // Create legend items in order
+            for (let i = 1; i <= 20; i++) {
+                div.innerHTML += 
+                    `<div class="legend-item" data-district="${i}">
+                        <i style="background:${getDistrictColor(i)}"></i>
+                        ${formatDistrictNumber(i)}
                     </div>`;
-            });
+            }
             return div;
         };
         legend.addTo(map);
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-        alert('Error loading map data. Please check console for details.');
-    });
 
 
 
