@@ -106,9 +106,13 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
                         geojsonLayer.resetStyle(e.target);
                     }
                 });
-                layer.bindPopup(区域 ${feature.properties.code});
+                // 修正 bindPopup 的语法
+                layer.bindPopup(`区域 ${feature.properties.code}`);
             }
         }).addTo(map);
+
+     
+
 
         // Convert API data to GeoJSON
         data.records.forEach(record => {
