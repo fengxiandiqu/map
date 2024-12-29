@@ -187,3 +187,23 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
             })
         };
 
+// Add a legend for hotel ratings
+const hotelLegend = L.control({position: 'bottomleft'});
+hotelLegend.onAdd = function() {
+    const div = L.DomUtil.create('div', 'hotel-legend'); // 使用新的类名
+    div.innerHTML = `
+        <h4>酒店评分</h4>
+        <div class="legend-item">
+            <i style="background-color: #89CFF0"></i>3星
+        </div>
+        <div class="legend-item">
+            <i style="background-color: #ff9800"></i>4星
+        </div>
+        <div class="legend-item">
+            <i style="background-color: #ffca28"></i>5星
+        </div>
+    `;
+    return div;
+};
+hotelLegend.addTo(map);
+
