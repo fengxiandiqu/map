@@ -101,19 +101,12 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
                             dashArray: '',
                             fillOpacity: 0.9
                         });
-                        info.update(feature.properties);
-                        highlightLegendItem(feature.properties.code);
                     },
                     mouseout: function(e) {
                         geojsonLayer.resetStyle(e.target);
-                        info.update();
-                        resetLegendItem();
-                    },
-                    click: function(e) {
-                        map.fitBounds(e.target.getBounds());
                     }
                 });
-                layer.bindPopup(formatDistrictNumber(feature.properties.code));
+                layer.bindPopup(区域 ${feature.properties.code});
             }
         }).addTo(map);
 
