@@ -72,3 +72,86 @@ function resetLegendItem() {
     });
 }
 
+// Fetch data from Paris Open Data
+fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements&rows=20')
+    .then(response => response.json())
+    .then(data => {
+        // Sort records by district number
+        data.records.sort((a, b) => 
+            parseInt(a.fields.c_ar) - parseInt(b.fields.c_ar)
+        );
+
+        const geojsonLayer = L.geoJSON(null, {
+            style: function(feature) {
+                return {
+                    fillColor: getDistrictColor(feature.properties.code),
+                    weight: 2,
+                    opacity: 1,
+                    color: 'white',
+                    dashArray: '3',
+                    fillOpacity: 0.7
+                };
+            },
+            onEachFeature: function(feature, layer) {
+                layer.on({
+                    mouseover: function(e) {
+                        const layer = e.target;
+                        layer.setStyle({
+                            weight: 5,
+                            color: '#666',
+                            dashArray: '',
+                            fillOpacity: 0.9
+                        });
+                        info.update(feature.properties);
+                        highlightLegendItem(feature.properties.code);
+                    },
+                    mouseout: function(e) {
+                        geojsonLayer.resetStyle(e.target);
+                        info.update();
+                        resetLegendItem();
+                    },
+                    click: function(e) {
+                        map.fitBounds(e.target.getBounds());
+                    }
+                });
+                layer.bindPopup(formatDistrictNumber(feature.properties.code));
+            }
+        }).addTo(map);
+
+        // Convert API data to GeoJSON
+        data.records.forEach(record => {
+            const districtCode = parseInt(record.fields.c_ar);
+            const feature = {
+                type: 'Feature',
+                properties: {
+                    code: districtCode,
+                    name: formatDistrictNumber(districtCode)
+                },
+                geometry: record.fields.geom
+            };
+            geojsonLayer.addData(feature);
+        });
+
+        // Fit map to show all districts
+        map.fitBounds(geojsonLayer.getBounds());
+
+        // Add legend with matching colors and interactive highlighting
+        const legend = L.control({position: 'bottomright'});
+        legend.onAdd = function() {
+            const div = L.DomUtil.create('div', 'legend');
+            div.innerHTML = '<h4>巴黎街区</h4>';
+            // Create legend items in order
+            for (let i = 1; i <= 20; i++) {
+                div.innerHTML += 
+                    `<div class="legend-item" data-district="${i}">
+                        <i style="background:${getDistrictColor(i)}"></i>
+                        ${formatDistrictNumber(i)}
+                    </div>`;
+            }
+            return div;
+        };
+        legend.addTo(map);
+
+
+
+
