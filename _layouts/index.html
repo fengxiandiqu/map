@@ -6,38 +6,6 @@ layout: default
 {% include header.html %}
 {% assign index_bg = site.data.skin.index.bg  | default: 'gray-2' %}
 
-<!-- 添加图例的 CSS 样式 -->
-<style>
-    .legend {
-        background: white;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-        font-size: 14px;
-    }
-    .legend-item {
-        display: flex;
-        align-items: center;
-        margin: 5px 0;
-        padding: 5px;
-        border: 1px solid #ddd;
-        border-radius: 3px;
-        cursor: pointer;
-    }
-    .legend-item:hover {
-        background-color: #f9f9f9;
-        border-color: #ccc;
-    }
-    .legend-item i {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
-        border: 1px solid #999;
-    }
-</style>
-
-
 <div class="container">
     {% assign alerts = site.data.index.alerts %}
     {% for alert in alerts %}
@@ -92,5 +60,36 @@ layout: default
         {% endif %}
     </div>
 </main>
+
+<!-- 添加图例的 CSS 样式 -->
+<style>
+    .legend {
+        background: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        font-size: 14px;
+    }
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin: 5px 0;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    .legend-item:hover {
+        background-color: #f9f9f9;
+        border-color: #ccc;
+    }
+    .legend-item i {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        border: 1px solid #999;
+    }
+</style>
 
 {% include footer.html %}
