@@ -51,7 +51,7 @@ info.onAdd = function() {
 
 
 
-// Function to highlight legend item
+// 高亮图例项
 function highlightLegendItem(code) {
     const legendItems = document.querySelectorAll('.legend-item');
     legendItems.forEach(item => {
@@ -62,7 +62,7 @@ function highlightLegendItem(code) {
     });
 }
 
-// Function to reset legend item highlight
+// 重置图例项高亮
 function resetLegendItem() {
     const legendItems = document.querySelectorAll('.legend-item');
     legendItems.forEach(item => {
@@ -70,6 +70,18 @@ function resetLegendItem() {
         item.style.fontWeight = 'normal';
     });
 }
+
+// 绑定图例项交互
+document.querySelectorAll('.legend-item').forEach(item => {
+    item.addEventListener('mouseover', () => {
+        const code = parseInt(item.dataset.district);
+        highlightLegendItem(code);
+    });
+    item.addEventListener('mouseout', () => {
+        resetLegendItem();
+    });
+});
+
 
 // Fetch data from Paris Open Data
 fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements&rows=20')
