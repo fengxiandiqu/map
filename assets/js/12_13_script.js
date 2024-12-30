@@ -6,83 +6,23 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-// Define colors for the districts with transparency (using rgba)
+// Define colors for the districts
 const colors = [
-    'rgba(0, 160, 0, 0.6)',    // #00A000 with 0.6 opacity
-    'rgba(0, 160, 0, 0.6)',    // #00A000
-    'rgba(255, 255, 0, 0.6)',  // #FFFF00
-    'rgba(0, 160, 0, 0.6)',    // #00A000
-    'rgba(0, 160, 0, 0.6)',    // #00A000
-    'rgba(0, 160, 0, 0.6)',    // #00A000
-    'rgba(0, 160, 0, 0.6)',    // #00A000
-    'rgba(0, 160, 0, 0.6)',    // #00A000
-    'rgba(0, 100, 0, 0.6)',    // #006400
-    'rgba(139, 0, 0, 0.6)',    // #8B0000
-    'rgba(255, 255, 0, 0.6)',  // #FFFF00
-    'rgba(0, 100, 0, 0.6)',    // #006400
-    'rgba(255, 255, 0, 0.6)',  // #FFFF00
-    'rgba(0, 100, 0, 0.6)',    // #006400
-    'rgba(0, 100, 0, 0.6)',    // #006400
-    'rgba(0, 100, 0, 0.6)',    // #006400
-    'rgba(139, 0, 0, 0.6)',    // #8B0000
-    'rgba(255, 0, 0, 0.6)',    // #FF0000
-    'rgba(255, 0, 0, 0.6)',    // #FF0000
-    'rgba(255, 0, 0, 0.6)'     // #FF0000
+    'rgba(0, 160, 0, 0.6)', 'rgba(0, 160, 0, 0.6)', 'rgba(255, 255, 0, 0.6)', 'rgba(0, 160, 0, 0.6)',
+    'rgba(0, 160, 0, 0.6)', 'rgba(0, 160, 0, 0.6)', 'rgba(0, 160, 0, 0.6)', 'rgba(0, 160, 0, 0.6)',
+    'rgba(0, 100, 0, 0.6)', 'rgba(139, 0, 0, 0.6)', 'rgba(255, 255, 0, 0.6)', 'rgba(0, 100, 0, 0.6)',
+    'rgba(255, 255, 0, 0.6)', 'rgba(0, 100, 0, 0.6)', 'rgba(0, 100, 0, 0.6)', 'rgba(0, 100, 0, 0.6)',
+    'rgba(139, 0, 0, 0.6)', 'rgba(255, 0, 0, 0.6)', 'rgba(255, 0, 0, 0.6)', 'rgba(255, 0, 0, 0.6)'
 ];
-
-
 
 // Function to get color based on district number
 function getDistrictColor(code) {
-    return colors[code - 1]; // Subtract 1 because array is 0-based
+    return colors[code - 1];
 }
 
 function formatDistrictNumber(num) {
     return `区域 ${num}`;
 }
-
-// Add info control
-const info = L.control();
-info.onAdd = function() {
-    this._div = L.DomUtil.create('div', 'info');
-    this.update();
-    return this._div;
-};
-
-
-// 高亮图例项
-function highlightLegendItem(risk) {
-    const legendItems = document.querySelectorAll('.legend-item');
-    legendItems.forEach(item => {
-        if (item.dataset.risk === risk.toString()) {
-            item.style.backgroundColor = '#f0f0f0';
-            item.style.fontWeight = 'bold';
-        }
-    });
-}
-
-// 重置图例项高亮
-function resetLegendItem() {
-    const legendItems = document.querySelectorAll('.legend-item');
-    legendItems.forEach(item => {
-        item.style.backgroundColor = 'transparent';
-        item.style.fontWeight = 'normal';
-    });
-}
-
-// 绑定图例项交互
-document.querySelectorAll('.legend-item').forEach(item => {
-    item.addEventListener('mouseover', () => {
-        const risk = parseInt(item.dataset.risk);
-        highlightLegendItem(risk);
-    });
-    item.addEventListener('mouseout', () => {
-        resetLegendItem();
-    });
-});
-
-
-
 
 // Fetch data from Paris Open Data
 fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements&rows=20')
@@ -92,8 +32,10 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
 
         const geojsonLayer = L.geoJSON(data.records, {
             style: function(feature) {
+                const fillColor = getDistrictColor(feature.properties.code);
+                console.log('District Code:', feature.properties.code, 'Fill Color:', fillColor);
                 return {
-                    fillColor: getDistrictColor(feature.properties.code),
+                    fillColor: fillColor,
                     weight: 2,
                     opacity: 1,
                     color: 'white',
@@ -105,7 +47,14 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
                 layer.bindPopup(`区域 ${feature.properties.code}`);
             }
         }).addTo(map);
+        console.log('GeoJSON Layer:', geojsonLayer);
 
+        // Bring GeoJSON layer to front
+        geojsonLayer.bringToFront();
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
 
 // Define icons for different star ratings
 const hotelIcons = {
