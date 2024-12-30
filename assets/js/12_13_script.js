@@ -219,57 +219,64 @@ hotelLegend.addTo(map);
         `;
 
         fetch(overpassUrl, {
-            method: 'POST',
-            body: query
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Hotel data received:', data);
+    method: 'POST',
+    body: query
+})
+    .then(response => response.json())
+    .then(data => {
+        console.log('Hotel data received:', data);
 
-                data.elements.forEach(element => {
-                    if (element.tags && element.tags.stars) {
-                        const stars = parseInt(element.tags.stars);
-                        if (stars >= 3) {
-                            const lat = element.lat;
-                            const lon = element.lon;
-                
-                            // 在这里加入检查 lat 和 lon 的代码
-                            if (lat && lon) {
-                                const marker = L.marker([lat, lon], { icon: hotelIcons[stars] }).addTo(map);
-                                
-                                // Create popup content
-                                const popupContent = `
-                                    <div class="hotel-popup">
-                                        <h3>${element.tags.name || 'Unnamed Hotel'}</h3>
-                                        <p><strong>Rating:</strong> ${'⭐'.repeat(stars)}</p>
-                                        ${element.tags.address ? `<p><strong>Address:</strong> ${element.tags.address}</p>` : ''}
-                                        ${element.tags.phone ? `<p><strong>Phone:</strong> ${element.tags.phone}</p>` : ''}
-                                        ${element.tags.website ? `<p><a href="${element.tags.website}" target="_blank">Visit Website</a></p>` : ''}
-                                    </div>
-                                `;
-                                marker.bindPopup(popupContent);
-                            } else {
-                                console.warn('缺少坐标信息的酒店:', element.tags.name);
-                            }
-                        }
+        data.elements.forEach(element => {
+            if (element.tags && element.tags.stars) {
+                const stars = parseInt(element.tags.stars);
+                if (stars >= 3) {
+                    const lat = element.lat;
+                    const lon = element.lon;
+
+                    if (lat && lon) {
+                        const marker = L.marker([lat, lon], { icon: hotelIcons[stars] }).addTo(map);
+                        hotelMarkers.push(marker); // 将酒店标记添加到 hotelMarkers 数组
+
+                        // 创建弹出内容
+                        const popupContent = `
+                            <div class="hotel-popup">
+                                <h3>${element.tags.name || 'Unnamed Hotel'}</h3>
+                                <p><strong>Rating:</strong> ${'⭐'.repeat(stars)}</p>
+                                ${element.tags.address ? `<p><strong>Address:</strong> ${element.tags.address}</p>` : ''}
+                                ${element.tags.phone ? `<p><strong>Phone:</strong> ${element.tags.phone}</p>` : ''}
+                                ${element.tags.website ? `<p><a href="${element.tags.website}" target="_blank">Visit Website</a></p>` : ''}
+                            </div>
+                        `;
+                        marker.bindPopup(popupContent);
+                    } else {
+                        console.warn('缺少坐标信息的酒店:', element.tags.name);
                     }
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching hotels:', error);
-                // Show error message on the map
-                const errorControl = L.control({position: 'topright'});
-                errorControl.onAdd = function() {
-                    const div = L.DomUtil.create('div', 'info error');
-                    div.innerHTML = `
-                        <h4>Error Loading Hotels</h4>
-                        <p>Could not load hotel data. Please try again later.</p>
-                        <p>Error: ${error.message}</p>
-                    `;
-                    return div;
-                };
-                errorControl.addTo(map);
-            });
+                }
+            }
+        });
+
+        // 在地铁数据加载完成后，调整地图视图
+        if (metroMarkers.length > 0) {
+            const allMarkers = [...hotelMarkers, ...metroMarkers];
+            const group = L.featureGroup(allMarkers);
+            map.fitBounds(group.getBounds());
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching hotels:', error);
+        // 显示错误信息
+        const errorControl = L.control({position: 'topright'});
+        errorControl.onAdd = function() {
+            const div = L.DomUtil.create('div', 'info error');
+            div.innerHTML = `
+                <h4>Error Loading Hotels</h4>
+                <p>Could not load hotel data. Please try again later.</p>
+                <p>Error: ${error.message}</p>
+            `;
+            return div;
+        };
+        errorControl.addTo(map);
+    });
         
         // Define metro icon
         const metroIcon = L.icon({
