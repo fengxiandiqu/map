@@ -106,27 +106,6 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
             }
         }).addTo(map);
 
-        // Add legend
-        const legend = L.control({ position: 'bottomright' });
-        legend.onAdd = function() {
-            const div = L.DomUtil.create('div', 'legend');
-            console.log('Legend Div:', div);
-            div.innerHTML = '<h4>巴黎街区</h4>';
-            for (let i = 1; i <= 20; i++) {
-                div.innerHTML += 
-                    `<div class="legend-item" data-district="${i}">
-                        <i style="background:${getDistrictColor(i)}"></i>
-                        ${formatDistrictNumber(i)}
-                    </div>`;
-            }
-            return div;
-        };
-        legend.addTo(map);
-        console.log('Legend added:', legend);
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
 
 // Define icons for different star ratings
 const hotelIcons = {
