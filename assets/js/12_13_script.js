@@ -50,12 +50,11 @@ info.onAdd = function() {
 };
 
 
-
 // 高亮图例项
-function highlightLegendItem(code) {
+function highlightLegendItem(risk) {
     const legendItems = document.querySelectorAll('.legend-item');
     legendItems.forEach(item => {
-        if (item.dataset.district === code.toString()) {
+        if (item.dataset.risk === risk.toString()) {
             item.style.backgroundColor = '#f0f0f0';
             item.style.fontWeight = 'bold';
         }
@@ -74,8 +73,8 @@ function resetLegendItem() {
 // 绑定图例项交互
 document.querySelectorAll('.legend-item').forEach(item => {
     item.addEventListener('mouseover', () => {
-        const code = parseInt(item.dataset.district);
-        highlightLegendItem(code);
+        const risk = parseInt(item.dataset.risk);
+        highlightLegendItem(risk);
     });
     item.addEventListener('mouseout', () => {
         resetLegendItem();
