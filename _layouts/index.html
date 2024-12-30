@@ -9,6 +9,13 @@ layout: default
 
 <!-- 添加图例的 CSS 样式 -->
 <style>
+#legend {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000; /* 确保图例在地图上方 */
+}
+
 .legend {
     background: white;
     padding: 10px;
