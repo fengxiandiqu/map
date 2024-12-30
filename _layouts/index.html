@@ -9,13 +9,6 @@ layout: default
 
 <!-- 添加图例的 CSS 样式 -->
 <style>
-#legend {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000; /* 确保图例在地图上方 */
-}
-
 .legend {
     background: white;
     padding: 10px;
@@ -106,16 +99,24 @@ layout: default
 </main>
 
 <!-- 将图例移到 container 外面 -->
-<div id="legend" style="position: absolute; bottom: 20px; right: 20px; z-index: 1000;">
+<div id="legend">
     <div class="legend">
-        <h4>巴黎街区</h4>
-        <div class="legend-item" data-district="1">
-            <i style="background: rgba(0, 160, 0, 0.6);"></i>区域 1
+        <h4>风险颜色</h4>
+        <div class="legend-item" data-risk="1">
+            <i style="background: rgba(0, 100, 0, 0.6);"></i>最安全
         </div>
-        <div class="legend-item" data-district="2">
-            <i style="background: rgba(0, 160, 0, 0.6);"></i>区域 2
+        <div class="legend-item" data-risk="2">
+            <i style="background: rgba(0, 160, 0, 0.6);"></i>安全
         </div>
-        <!-- 添加更多图例项 -->
+        <div class="legend-item" data-risk="3">
+            <i style="background: rgba(255, 255, 0, 0.6);"></i>一般
+        </div>
+        <div class="legend-item" data-risk="4">
+            <i style="background: rgba(255, 0, 0, 0.6);"></i>有风险
+        </div>
+        <div class="legend-item" data-risk="5">
+            <i style="background: rgba(139, 0, 0, 0.6);"></i>最有风险
+        </div>
     </div>
 </div>
 
