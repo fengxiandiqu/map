@@ -149,7 +149,8 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
         legend.addTo(map);
 
 
-
+const hotelMarkers = [];
+const metroMarkers = [];
 // ... (keep all existing code until after the legend) ...
 
         // After the legend code, add this:
