@@ -233,6 +233,7 @@ fetch(overpassUrl, {
 
                     if (lat && lon) {
                         const marker = L.marker([lat, lon], { icon: hotelIcons[stars] }).addTo(map);
+                        marker.district = getDistrictFromCoordinates(lat, lon); // 存储酒店所属区域
                         hotelMarkers.push(marker); // 存储酒店标记
                     }
                 }
@@ -243,10 +244,23 @@ fetch(overpassUrl, {
         console.error('Error fetching hotels:', error);
     });
 
-// 区域筛选功能
-districtFilter.addEventListener('change', function() {
-    const selectedDistrict = this.value;
+// 根据坐标获取酒店所属区域
+function getDistrictFromCoordinates(lat, lon) {
+    let district = null;
+    districtLayers.forEach(layer => {
+        if (layer.getBounds().contains([lat, lon])) {
+            district = layer.feature.properties.code;
+        }
+    });
+    return district;
+}
 
+// 筛选功能
+function applyFilters() {
+    const selectedDistrict = districtFilter.value;
+    const selectedStars = hotelFilter.value;
+
+    // 筛选区域
     districtLayers.forEach(layer => {
         if (selectedDistrict === 'all' || layer.feature.properties.code === parseInt(selectedDistrict)) {
             layer.setStyle({ fillOpacity: 0.7 }); // 显示选中区域
@@ -254,17 +268,21 @@ districtFilter.addEventListener('change', function() {
             layer.setStyle({ fillOpacity: 0 }); // 隐藏其他区域
         }
     });
-});
 
-// 酒店星级筛选功能
-hotelFilter.addEventListener('change', function() {
-    const selectedStars = this.value;
-
+    // 筛选酒店
     hotelMarkers.forEach(marker => {
-        if (selectedStars === 'all' || marker.options.icon === hotelIcons[selectedStars]) {
-            marker.addTo(map); // 显示选中星级的酒店
+        const showHotel =
+            (selectedDistrict === 'all' || marker.district === parseInt(selectedDistrict)) &&
+            (selectedStars === 'all' || marker.options.icon === hotelIcons[selectedStars]);
+
+        if (showHotel) {
+            marker.addTo(map); // 显示符合条件的酒店
         } else {
-            map.removeLayer(marker); // 隐藏其他星级的酒店
+            map.removeLayer(marker); // 隐藏不符合条件的酒店
         }
     });
-});
+}
+
+// 绑定筛选事件
+districtFilter.addEventListener('change', applyFilters);
+hotelFilter.addEventListener('change', applyFilters);
