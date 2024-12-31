@@ -51,6 +51,29 @@ layout: default
 .legend-item img {
     margin-right: 10px;
 }
+
+#filters {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+}
+
+#filters label {
+    margin-right: 5px;
+}
+
+#filters select {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 14px;
+}
 </style>
 
 
@@ -146,6 +169,43 @@ layout: default
             <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png" style="width: 20px; height: 20px;">
             3 星级酒店
         </div>
+    </div>
+
+
+    <!-- 添加筛选栏 -->
+    <div id="filters">
+        <label for="district-filter">区域：</label>
+        <select id="district-filter">
+            <option value="all">全部区域</option>
+            <option value="1">区域 1</option>
+            <option value="2">区域 2</option>
+            <option value="3">区域 3</option>
+            <option value="4">区域 4</option>
+            <option value="5">区域 5</option>
+            <option value="6">区域 6</option>
+            <option value="7">区域 7</option>
+            <option value="8">区域 8</option>
+            <option value="9">区域 9</option>
+            <option value="10">区域 10</option>
+            <option value="11">区域 11</option>
+            <option value="12">区域 12</option>
+            <option value="13">区域 13</option>
+            <option value="14">区域 14</option>
+            <option value="15">区域 15</option>
+            <option value="16">区域 16</option>
+            <option value="17">区域 17</option>
+            <option value="18">区域 18</option>
+            <option value="19">区域 19</option>
+            <option value="20">区域 20</option>
+        </select>
+    
+        <label for="hotel-filter" style="margin-left: 10px;">酒店星级：</label>
+        <select id="hotel-filter">
+            <option value="all">全部星级</option>
+            <option value="3">3 星级酒店</option>
+            <option value="4">4 星级酒店</option>
+            <option value="5">5 星级酒店</option>
+        </select>
     </div>
 </div>
 
