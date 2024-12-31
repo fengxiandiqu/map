@@ -28,10 +28,14 @@ let hotelMarkers = [];
 fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements&rows=20')
     .then(response => response.json())
     .then(data => {
+        console.log('API Data:', data); // 打印 API 数据，检查格式
+
         const geojsonLayer = L.geoJSON(data.records, {
             style: function(feature) {
+                const districtCode = feature.fields.c_ar; // 获取区域代码
+                const fillColor = getDistrictColor(districtCode); // 获取区域颜色
                 return {
-                    fillColor: getDistrictColor(feature.properties.code),
+                    fillColor: fillColor,
                     weight: 2,
                     opacity: 1,
                     color: 'white',
@@ -41,8 +45,12 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
             },
             onEachFeature: function(feature, layer) {
                 districtLayers.push(layer); // 存储区域图层
+                layer.bindPopup(`区域 ${feature.fields.c_ar}`); // 绑定弹出窗口
             }
         }).addTo(map);
+
+        // 调整地图视野以显示所有区域
+        map.fitBounds(geojsonLayer.getBounds());
     })
     .catch(error => {
         console.error('Error fetching data:', error);
