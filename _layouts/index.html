@@ -12,11 +12,8 @@ layout: default
 #legend {
     position: absolute;
     bottom: 20px;
-    right: 20px;
+    left: 20px;
     z-index: 1000; /* 确保图例在地图上方 */
-}
-
-.legend {
     background: white;
     padding: 10px;
     border-radius: 5px;
@@ -24,10 +21,14 @@ layout: default
     font-size: 14px;
 }
 
+.legend {
+    margin-bottom: 20px; /* 增加图例之间的间距 */
+}
+
 .legend-item {
     display: flex;
     align-items: center;
-    margin: 5px 0;
+    margin: 10px 0; /* 增加内部间距 */
     padding: 5px;
     border: 1px solid #ddd;
     border-radius: 3px;
@@ -45,6 +46,10 @@ layout: default
     height: 20px;
     margin-right: 10px;
     border: 1px solid #999;
+}
+
+.legend-item img {
+    margin-right: 10px;
 }
 </style>
 
