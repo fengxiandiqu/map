@@ -30,9 +30,25 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
     .then(data => {
         console.log('API Data:', data); // 打印 API 数据，检查格式
 
-        const geojsonLayer = L.geoJSON(data.records, {
+        // 将 API 数据转换为 GeoJSON 格式
+        const geojsonData = {
+            type: 'FeatureCollection',
+            features: data.records.map(record => ({
+                type: 'Feature',
+                properties: {
+                    code: record.fields.c_ar, // 区域代码
+                    name: `区域 ${record.fields.c_ar}` // 区域名称
+                },
+                geometry: record.fields.geom // 区域几何数据
+            }))
+        };
+
+        console.log('GeoJSON Data:', geojsonData); // 打印转换后的 GeoJSON 数据
+
+        // 添加 GeoJSON 图层到地图
+        const geojsonLayer = L.geoJSON(geojsonData, {
             style: function(feature) {
-                const districtCode = feature.fields.c_ar; // 获取区域代码
+                const districtCode = feature.properties.code; // 获取区域代码
                 const fillColor = getDistrictColor(districtCode); // 获取区域颜色
                 return {
                     fillColor: fillColor,
@@ -45,7 +61,7 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
             },
             onEachFeature: function(feature, layer) {
                 districtLayers.push(layer); // 存储区域图层
-                layer.bindPopup(`区域 ${feature.fields.c_ar}`); // 绑定弹出窗口
+                layer.bindPopup(`区域 ${feature.properties.code}`); // 绑定弹出窗口
             }
         }).addTo(map);
 
