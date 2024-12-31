@@ -184,3 +184,87 @@ fetch(overpassUrl, {
     .catch(error => {
         console.error('Error fetching metro data:', error);
     });
+
+
+// 获取下拉栏元素
+const districtFilter = document.getElementById('district-filter');
+const hotelFilter = document.getElementById('hotel-filter');
+
+// 存储所有区域和酒店标记
+let districtLayers = [];
+let hotelMarkers = [];
+
+// 初始化地图时，存储区域和酒店标记
+fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements&rows=20')
+    .then(response => response.json())
+    .then(data => {
+        const geojsonLayer = L.geoJSON(data.records, {
+            style: function(feature) {
+                return {
+                    fillColor: getDistrictColor(feature.properties.code),
+                    weight: 2,
+                    opacity: 1,
+                    color: 'white',
+                    dashArray: '3',
+                    fillOpacity: 0.7
+                };
+            },
+            onEachFeature: function(feature, layer) {
+                districtLayers.push(layer); // 存储区域图层
+            }
+        }).addTo(map);
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+
+fetch(overpassUrl, {
+    method: 'POST',
+    body: hotelQuery
+})
+    .then(response => response.json())
+    .then(data => {
+        data.elements.forEach(element => {
+            if (element.tags && element.tags.stars) {
+                const stars = parseInt(element.tags.stars);
+                if (stars >= 3) {
+                    const lat = element.lat;
+                    const lon = element.lon;
+
+                    if (lat && lon) {
+                        const marker = L.marker([lat, lon], { icon: hotelIcons[stars] }).addTo(map);
+                        hotelMarkers.push(marker); // 存储酒店标记
+                    }
+                }
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching hotels:', error);
+    });
+
+// 区域筛选功能
+districtFilter.addEventListener('change', function() {
+    const selectedDistrict = this.value;
+
+    districtLayers.forEach(layer => {
+        if (selectedDistrict === 'all' || layer.feature.properties.code === parseInt(selectedDistrict)) {
+            layer.setStyle({ fillOpacity: 0.7 }); // 显示选中区域
+        } else {
+            layer.setStyle({ fillOpacity: 0 }); // 隐藏其他区域
+        }
+    });
+});
+
+// 酒店星级筛选功能
+hotelFilter.addEventListener('change', function() {
+    const selectedStars = this.value;
+
+    hotelMarkers.forEach(marker => {
+        if (selectedStars === 'all' || marker.options.icon === hotelIcons[selectedStars]) {
+            marker.addTo(map); // 显示选中星级的酒店
+        } else {
+            map.removeLayer(marker); // 隐藏其他星级的酒店
+        }
+    });
+});
