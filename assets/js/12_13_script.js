@@ -46,11 +46,7 @@ fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements
             onEachFeature: function(feature, layer) {
                 layer.bindPopup(`区域 ${feature.properties.code}`);
             }
-        }).addTo(map);
-        console.log('GeoJSON Layer:', geojsonLayer);
-
-        // Bring GeoJSON layer to front
-        geojsonLayer.bringToFront();
+        }).addTo(map).bringToFront();
     })
     .catch(error => {
         console.error('Error fetching data:', error);
@@ -86,7 +82,7 @@ const hotelIcons = {
 
 // Use the Overpass API to fetch hotels in Paris
 const overpassUrl = 'https://overpass-api.de/api/interpreter';
-const query = `
+const hotelQuery = `
     [out:json][timeout:25];
     area["name"="Paris"]["admin_level"="8"]->.searchArea;
     (
@@ -101,7 +97,7 @@ const query = `
 
 fetch(overpassUrl, {
     method: 'POST',
-    body: query
+    body: hotelQuery
 })
     .then(response => response.json())
     .then(data => {
