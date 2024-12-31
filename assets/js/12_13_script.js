@@ -273,7 +273,7 @@ function applyFilters() {
     hotelMarkers.forEach(marker => {
         const showHotel =
             (selectedDistrict === 'all' || marker.district === parseInt(selectedDistrict)) &&
-            (selectedStars === 'all' || marker.options.icon === hotelIcons[selectedStars]);
+            (selectedStars === 'all' || parseInt(selectedStars) === getHotelStars(marker));
 
         if (showHotel) {
             marker.addTo(map); // 显示符合条件的酒店
@@ -281,6 +281,16 @@ function applyFilters() {
             map.removeLayer(marker); // 隐藏不符合条件的酒店
         }
     });
+}
+
+// 获取酒店的星级
+function getHotelStars(marker) {
+    for (const stars in hotelIcons) {
+        if (marker.options.icon === hotelIcons[stars]) {
+            return parseInt(stars);
+        }
+    }
+    return null;
 }
 
 // 绑定筛选事件
