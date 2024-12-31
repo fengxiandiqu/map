@@ -1,12 +1,12 @@
-// Initialize the map
+// 初始化地图
 const map = L.map('map').setView([48.8566, 2.3522], 12);
 
-// Add the base map layer
+// 添加底图
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-// Define colors for the districts
+// 定义区域颜色
 const colors = [
     'rgba(0, 160, 0, 0.6)', 'rgba(0, 160, 0, 0.6)', 'rgba(255, 255, 0, 0.6)', 'rgba(0, 160, 0, 0.6)',
     'rgba(0, 160, 0, 0.6)', 'rgba(0, 160, 0, 0.6)', 'rgba(0, 160, 0, 0.6)', 'rgba(0, 160, 0, 0.6)',
@@ -15,15 +15,10 @@ const colors = [
     'rgba(139, 0, 0, 0.6)', 'rgba(255, 0, 0, 0.6)', 'rgba(255, 0, 0, 0.6)', 'rgba(255, 0, 0, 0.6)'
 ];
 
-// Function to get color based on district number
+// 获取区域颜色
 function getDistrictColor(code) {
     return colors[code - 1];
 }
-
-function formatDistrictNumber(num) {
-    return `区域 ${num}`;
-}
-
 
 // 存储所有区域和酒店标记
 let districtLayers = [];
