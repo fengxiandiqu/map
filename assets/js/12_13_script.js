@@ -127,6 +127,20 @@ fetch('https://overpass-api.de/api/interpreter', {
 
                     if (lat && lon) {
                         const marker = L.marker([lat, lon], { icon: hotelIcons[stars] }).addTo(map);
+                        // 创建弹出窗口内容
+                        const popupContent = `
+                            <div class="hotel-popup">
+                                <h3>${element.tags.name || '未命名酒店'}</h3>
+                                <p><strong>星级:</strong> ${'⭐'.repeat(stars)}</p>
+                                ${element.tags.address ? `<p><strong>地址:</strong> ${element.tags.address}</p>` : ''}
+                                ${element.tags.phone ? `<p><strong>电话:</strong> ${element.tags.phone}</p>` : ''}
+                                ${element.tags.website ? `<p><a href="${element.tags.website}" target="_blank">访问网站</a></p>` : ''}
+                            </div>
+                        `;
+
+                        // 绑定弹出窗口
+                        marker.bindPopup(popupContent);
+
                         marker.stars = stars; // 存储酒店的星级信息
                         marker.district = getDistrictFromCoordinates(lat, lon); // 存储酒店所属区域
                         hotelMarkers.push(marker); // 存储酒店标记
