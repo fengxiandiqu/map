@@ -105,6 +105,33 @@ layout: default
 .hotel-popup a:hover {
     text-decoration: underline;
 }
+
+/* 地铁筛选按钮样式 */
+#metrofilter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 20px; /* 调整与酒店星级筛选的距离 */
+}
+
+#metrofilter button {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+#metrofilter button:hover {
+    background-color: #e8e8e8;
+    border-color: #ccc;
+}
+
+#metrofilter button:active {
+    background-color: #d8d8d8;
+}
 </style>
 
 
@@ -170,6 +197,11 @@ layout: default
                     <option value="5">5 星级酒店</option>
                 </select>
             </div>
+            <!-- 地铁按钮容器 -->
+            <div id="metrofilter">
+                <button id="toggle-metro-button">隐藏地铁站</button>
+            </div>
+            
         </div>
 
         {{ content }}
