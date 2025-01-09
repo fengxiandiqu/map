@@ -23,6 +23,7 @@ function getDistrictColor(code) {
 // 存储所有区域和酒店标记
 let districtLayers = [];
 let hotelMarkers = [];
+let metroMarkers = [];  // 新增地铁标记存储数组
 
 // 初始化地图时，存储区域和酒店标记
 fetch('https://opendata.paris.fr/api/records/1.0/search/?dataset=arrondissements&rows=20')
@@ -194,6 +195,20 @@ function applyFilters() {
             }
         }
     });
+
+     // 筛选地铁站
+    metroMarkers.forEach(marker => {
+        const showMetro = selectedDistrict === 'all' || marker.district === parseInt(selectedDistrict);
+        if (showMetro) {
+            if (!map.hasLayer(marker)) {
+                marker.addTo(map); // 显示符合条件的地铁站
+            }
+        } else {
+            if (map.hasLayer(marker)) {
+                map.removeLayer(marker); // 隐藏不符合条件的地铁站
+            }
+        }
+    });
 }
 
 // 绑定筛选事件
@@ -238,6 +253,9 @@ fetch('https://overpass-api.de/api/interpreter', {
                 // 创建地铁标记
                 const marker = L.marker([lat, lon], { icon: metroIcon });
 
+                // 获取地铁站所在区域
+                marker.district = getDistrictFromCoordinates(lat, lon);
+
                 // 绑定弹出框
                 marker.bindPopup(`
                     <div class="metro-popup">
@@ -269,6 +287,6 @@ toggleMetroButton.addEventListener('click', () => {
         metroMarkers.forEach(marker => marker.addTo(map));
         toggleMetroButton.textContent = '隐藏地铁站';
     }
-    metroVisible = !metroVisible; // 切换状态
+    metroVisible = !metroVisible; //切换状态
 });
 
