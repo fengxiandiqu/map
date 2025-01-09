@@ -225,8 +225,6 @@ const metroIcon = L.icon({
     popupAnchor: [0, -25]
 });
 
-// 2. 初始化一个数组，用于存储地铁标记
-const metroMarkers = [];
 
 // 3. 加载地铁站点数据
 fetch('https://overpass-api.de/api/interpreter', {
