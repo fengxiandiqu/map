@@ -201,3 +201,74 @@ const districtFilter = document.getElementById('district-filter');
 const hotelFilter = document.getElementById('hotel-filter');
 districtFilter.addEventListener('change', applyFilters);
 hotelFilter.addEventListener('change', applyFilters);
+
+// 1. 创建地铁图标
+const metroIcon = L.icon({
+    iconUrl: 'https://img.icons8.com/plasticine/100/subway--v1.png', // 地铁图标
+    iconSize: [25, 25],
+    iconAnchor: [12, 25],
+    popupAnchor: [0, -25]
+});
+
+// 2. 初始化一个数组，用于存储地铁标记
+const metroMarkers = [];
+
+// 3. 加载地铁站点数据
+fetch('https://overpass-api.de/api/interpreter', {
+    method: 'POST',
+    body: `
+        [out:json][timeout:25];
+        area["name"="Paris"]["admin_level"="8"]->.searchArea;
+        (
+            node["railway"="subway_entrance"](area.searchArea);
+            node["station"="subway"](area.searchArea);
+        );
+        out body;
+    `
+})
+    .then(response => response.json())
+    .then(data => {
+        console.log('Metro data:', data);
+
+        data.elements.forEach(element => {
+            const lat = element.lat;
+            const lon = element.lon;
+
+            if (lat && lon) {
+                // 创建地铁标记
+                const marker = L.marker([lat, lon], { icon: metroIcon });
+
+                // 绑定弹出框
+                marker.bindPopup(`
+                    <div class="metro-popup">
+                        <h3>地铁站</h3>
+                        <p><strong>名称:</strong> ${element.tags.name || '未命名地铁站'}</p>
+                    </div>
+                `);
+
+                metroMarkers.push(marker); // 将标记添加到数组
+                marker.addTo(map); // 默认添加到地图
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching metro data:', error);
+    });
+
+// 4. 为地铁切换按钮绑定逻辑
+const toggleMetroButton = document.getElementById('toggle-metro-button'); // 获取地铁切换按钮
+let metroVisible = true; // 地铁标记的可见状态
+
+toggleMetroButton.addEventListener('click', () => {
+    if (metroVisible) {
+        // 隐藏地铁标记
+        metroMarkers.forEach(marker => map.removeLayer(marker));
+        toggleMetroButton.textContent = '显示地铁站';
+    } else {
+        // 显示地铁标记
+        metroMarkers.forEach(marker => marker.addTo(map));
+        toggleMetroButton.textContent = '隐藏地铁站';
+    }
+    metroVisible = !metroVisible; // 切换状态
+});
+
