@@ -12,7 +12,7 @@ layout: default
 #legend {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px; /* Space below legend */
+    margin-bottom: 20px;
     background: white;
     padding: 10px;
     border-radius: 5px;
@@ -20,35 +20,28 @@ layout: default
     font-size: 14px;
 }
 
-.legend {
-    margin-bottom: 15px; /* Space between sections */
-}
-
-.legend h4 {
-    margin-bottom: 10px; /* Space below section titles */
-    font-size: 16px; /* Slightly larger font for titles */
-}
-
 .legend-row {
     display: flex;
-    justify-content: space-evenly; /* Align items with even spacing */
-    align-items: center; /* Center vertically */
-    flex-wrap: nowrap; /* Keep all items in one line */
-    gap: 20px; /* Space between legend items */
+    align-items: center; /* 垂直居中 */
+    margin-bottom: 10px; /* 每行之间的间距 */
+}
+
+.legend-title {
+    font-weight: bold;
+    margin-right: 10px; /* 标题与内容的间距 */
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    font-size: 14px;
+    margin-right: 20px; /* 内容项之间的间距 */
 }
 
 .legend-item img, .legend-item i {
-    margin-right: 5px; /* Space between icon and text */
+    margin-right: 5px; /* 图标与文字之间的间距 */
     width: 20px;
     height: 20px;
 }
-
 
 
 #filters {
