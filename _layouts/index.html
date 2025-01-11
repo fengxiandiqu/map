@@ -10,10 +10,9 @@ layout: default
 <!-- 添加图例的 CSS 样式 -->
 <style>
 #legend {
-    display: flex; /* Align legend sections horizontally */
-    justify-content: space-between; /* Distribute space between items */
-    flex-wrap: wrap; /* Allow wrapping to create multiple rows */
-    margin-bottom: 20px; /* Add space below the legend */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px; /* Space between legend and buttons */
     background: white;
     padding: 10px;
     border-radius: 5px;
@@ -22,22 +21,32 @@ layout: default
 }
 
 .legend {
-    margin-right: 20px; /* Space between each legend group */
-    flex: 1 1 45%; /* Ensure items take up half of the width in two rows */
+    margin-bottom: 15px; /* Space between sections */
 }
 
 .legend h4 {
-    margin-bottom: 10px; /* Space below the section title */
+    margin-bottom: 10px; /* Space below section titles */
+    font-size: 16px; /* Slightly larger font for titles */
+}
+
+.legend-row {
+    display: flex;
+    justify-content: space-between; /* Space items evenly */
+    align-items: center; /* Vertically align items */
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    margin: 5px 0; /* Space between legend items */
+    margin-right: 15px; /* Space between items */
+}
+
+.legend-item:last-child {
+    margin-right: 0; /* Remove space for the last item */
 }
 
 .legend-item img, .legend-item i {
-    margin-right: 10px; /* Space between icon and text */
+    margin-right: 5px; /* Space between icon and text */
     width: 20px;
     height: 20px;
 }
