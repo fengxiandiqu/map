@@ -248,47 +248,48 @@ layout: default
             <a {{ a }} type="button" class="{{ classes }}" target="_blank">{{ button.text | upcase }}</a>
             {% endfor %}
         </div>
+            <!-- 将图例移到 container 外面 -->
+            <div id="legend">
+                <div class="legend">
+                    <h4>风险颜色</h4>
+                    <div class="legend-item" data-risk="1">
+                        <i style="background: rgba(0, 100, 0, 0.6);"></i>最安全
+                    </div>
+                    <div class="legend-item" data-risk="2">
+                        <i style="background: rgba(0, 160, 0, 0.6);"></i>安全
+                    </div>
+                    <div class="legend-item" data-risk="3">
+                        <i style="background: rgba(255, 255, 0, 0.6);"></i>一般
+                    </div>
+                    <div class="legend-item" data-risk="4">
+                        <i style="background: rgba(255, 0, 0, 0.6);"></i>有风险
+                    </div>
+                    <div class="legend-item" data-risk="5">
+                        <i style="background: rgba(139, 0, 0, 0.6);"></i>最有风险
+                    </div>
+                </div>
+            
+                <!-- 添加酒店等级图例 -->
+                <div class="legend">
+                    <h4>酒店等级</h4>
+                    <div class="legend-item">
+                        <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png" style="width: 20px; height: 20px;">
+                        5 星级酒店
+                    </div>
+                    <div class="legend-item">
+                        <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png" style="width: 20px; height: 20px;">
+                        4 星级酒店
+                    </div>
+                    <div class="legend-item">
+                        <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png" style="width: 20px; height: 20px;">
+                        3 星级酒店
+                    </div>
+                </div>
         {% endif %}
     </div>
 </main>
 
-<!-- 将图例移到 container 外面 -->
-<div id="legend">
-    <div class="legend">
-        <h4>风险颜色</h4>
-        <div class="legend-item" data-risk="1">
-            <i style="background: rgba(0, 100, 0, 0.6);"></i>最安全
-        </div>
-        <div class="legend-item" data-risk="2">
-            <i style="background: rgba(0, 160, 0, 0.6);"></i>安全
-        </div>
-        <div class="legend-item" data-risk="3">
-            <i style="background: rgba(255, 255, 0, 0.6);"></i>一般
-        </div>
-        <div class="legend-item" data-risk="4">
-            <i style="background: rgba(255, 0, 0, 0.6);"></i>有风险
-        </div>
-        <div class="legend-item" data-risk="5">
-            <i style="background: rgba(139, 0, 0, 0.6);"></i>最有风险
-        </div>
-    </div>
 
-    <!-- 添加酒店等级图例 -->
-    <div class="legend">
-        <h4>酒店等级</h4>
-        <div class="legend-item">
-            <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png" style="width: 20px; height: 20px;">
-            5 星级酒店
-        </div>
-        <div class="legend-item">
-            <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png" style="width: 20px; height: 20px;">
-            4 星级酒店
-        </div>
-        <div class="legend-item">
-            <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png" style="width: 20px; height: 20px;">
-            3 星级酒店
-        </div>
-    </div>
 
 </div>
 {% include footer.html %}
